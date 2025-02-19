@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Data\WorkerController;
 
 Route::get('/', [App\Http\Controllers\FrontendController::class, 'index']);
 Route::get('/layanan', [App\Http\Controllers\FrontendController::class, 'layanan']);
@@ -23,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/data/bank', App\Http\Controllers\Data\BankController::class)->middleware('role:superadmin');
     Route::resource('/data/testimoni', App\Http\Controllers\Data\TestimoniController::class)->middleware('role:superadmin');
     Route::resource('/data/layanan', App\Http\Controllers\Data\LayananController::class)->middleware('role:superadmin');
-    
+    Route::put('/data/worker/{id}', [WorkerController::class, 'update'])->name('worker.update');
     Route::get('/data/kontak', [App\Http\Controllers\HomeController::class, 'kontak']);
     Route::resource('/data/member', App\Http\Controllers\Data\MemberController::class)->middleware('role:superadmin');
     Route::resource('/data/worker', App\Http\Controllers\Data\WorkerController::class)->middleware('role:superadmin');
