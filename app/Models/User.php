@@ -34,6 +34,7 @@ class User extends Authenticatable
         'city_code',
         'province_code',
         'status',
+        'no_rekening',
     ];
 
     /**

@@ -33,6 +33,7 @@ class WorkerController extends Controller
             'email' => 'required|unique:users',
             'password' => 'required',
             'alamat' => 'required', // Tambah validasi alamat
+            'no_rekening' => 'required|unique:users'
         ]);
 
         if ($validated->fails()) {
@@ -61,6 +62,7 @@ class WorkerController extends Controller
 
             $data->avatar = $fileimageName;
         }
+        $data->no_rekening = $request->no_rekening;
         $data->save();
         $data->assignRole('worker');
         Session::flash('success', 'data berhasil di simpan');
@@ -79,11 +81,9 @@ class WorkerController extends Controller
     public function update(Request $request, $id)
     {
         $validated = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'no_telp' => 'required',
-            'alamat' => 'required',
-            'status' => 'required',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'no_telp' => 'required',
+                'status' => 'required',
         ]);
 
         if ($validated->fails()) {
@@ -97,10 +97,8 @@ class WorkerController extends Controller
 
         // Update data user
         $data->update([
-            'name' => $request->name,
             'email' => $request->email,
             'no_telp' => $request->no_telp,
-            'alamat' => $request->alamat,
             'status' => $request->status,
             'password' => $request->password ? bcrypt($request->password) : $data->password
         ]);
