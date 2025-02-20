@@ -4,14 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Tukang</title>
+    <title>Dekat</title>
 
     <!-- Stylesheets -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
+    <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
-
+    <!-- Favicon -->
+     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -31,17 +33,14 @@
                             <img src="{{ asset('assets/images/loader.gif') }}" alt="loader">
                         </div>
                         <div class="txt-loading">
-                            <span data-text-preloader="s" class="letters-loading">
-                                s
+                            <span data-text-preloader="D" class="letters-loading">
+                                D
                             </span>
                             <span data-text-preloader="e" class="letters-loading">
                                 e
                             </span>
-                            <span data-text-preloader="r" class="letters-loading">
-                                r
-                            </span>
-                            <span data-text-preloader="v" class="letters-loading">
-                                v
+                            <span data-text-preloader="k" class="letters-loading">
+                                k
                             </span>
                             <span data-text-preloader="a" class="letters-loading">
                                 a
@@ -193,8 +192,8 @@
                                 <div class="about-widget-inner">
                                     <h6 class="footer-widget-title">Tentang</h6>
                                     <p>
-                                        It is a long established fact that a reader will be distracted by the readable
-                                        counter of a page.
+                                    Dekat adalah sebuah layanan jasa digital dari Disnaker Kota Depok yang berfungsi untuk mencari layanan jasa dan membantu masyarakat di Kota Depok, 
+                                    para mitra yang tergabung sebagai pemberi jasa adalah Mitra yang Berpengalaman, Profesional Bergaransi dan Bersertifikat resmi dari pelatihan BNSP.
                                     </p>
 
                                 </div>
@@ -203,7 +202,7 @@
                         <div class="col-xl-3  col-lg-4  col-md-4">
                             <div class="footer-widget company-widget">
                                 <div class="company-widget-inner">
-                                    <h6 class="footer-widget-title">Tentang</h6>
+                                    <h6 class="footer-widget-title">Kontak</h6>
                                     <ul class="footer-widget-list">
                                         <li><a href="{{ url('/kontak') }}">Kontak</a></li>
                                     </ul>
@@ -227,10 +226,9 @@
                                     <div class="footer-newsletter-info">
 
                                         <div class="footer-contact-info">
-                                            <a href="#0"><i class="fa-light fa-location-dot"></i> Jln Pancasila
-                                                no 45, Depok, Jawa Barat</a>
+                                            <a href="#0"><i class="fa-light fa-location-dot"></i>Jl. Margonda Raya No.54, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431</a>
                                             <a href="mailto:example@gmail.com"><i class="fa-light fa-envelope"></i>
-                                                example@gmail.com</a>
+                                            disnakerkotadepok@gmail.com</a>
                                         </div>
                                     </div>
                                 </div>
