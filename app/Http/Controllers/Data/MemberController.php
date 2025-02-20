@@ -22,11 +22,13 @@ class MemberController extends Controller
     }
 
     public function show($id){
-        $data = User::role('member')->where('id', $id)->first();
         $this->middleware('verified');
-        if (empty($data)) {
+        try {
+            $data = User::role('member')->findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
+        $data = User::role('member')->findOrFail($id);
         return view('data.user.member.show', compact('data'));
 
     }
