@@ -11,7 +11,7 @@ Route::get('/tentang', [App\Http\Controllers\FrontendController::class, 'tentang
 Route::get('/kontak', [App\Http\Controllers\FrontendController::class, 'kontak']);
 Route::post('/send_kontak', [App\Http\Controllers\FrontendController::class, 'send_kontak']);
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
