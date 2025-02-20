@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
     }
 
     /**
@@ -75,6 +75,7 @@ class HomeController extends Controller
         Session::flash('success', 'data berhasil di simpan');
         return redirect('profil');
     }
+
 
     public function member(MemberDataTable $dataTable)
     {

@@ -13,6 +13,14 @@ Route::post('/send_kontak', [App\Http\Controllers\FrontendController::class, 'se
 
 Auth::routes(['verify' => true]);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verify');
+    })->name('verification.notice');
+});
+
+Route::post('/email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/profil', [App\Http\Controllers\HomeController::class, 'profil'])->name('profil');
