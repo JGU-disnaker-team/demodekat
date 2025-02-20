@@ -23,10 +23,12 @@ class MemberController extends Controller
 
     public function show($id){
         $data = User::role('member')->where('id', $id)->first();
+        $this->middleware('verified');
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
         return view('data.user.member.show', compact('data'));
+
     }
 
     public function destroy($id)
