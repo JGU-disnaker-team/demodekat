@@ -32,6 +32,18 @@ class MemberController extends Controller
         return view('data.user.member.show', compact('data'));
 
     }
+    public function store(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email:rfc,dns|unique:users',
+        // field lainnya
+    ]);
+
+    $user = User::create($request->all());
+    $user->sendEmailVerificationNotification(); // Kirim email verifikasi
+
+    return redirect()->route('members.index');
+}
 
     public function destroy($id)
     {
