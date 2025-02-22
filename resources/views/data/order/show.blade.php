@@ -68,6 +68,16 @@
                         <li class="list-group-item">
                             <strong>Nama Member:</strong> {{ @$data->customer->name ?? 'Tidak Ada' }}
                         </li>
+                        <li class="list-group-item">
+                            <strong>Bukti Transfer:</strong> <br>
+                            @if (!empty($data->bukti_transfer))
+                                <a href="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" target="_blank">
+                                    <img src="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" alt="Bukti Transfer" width="200">
+                                </a>
+                            @else
+                                <p>Tidak ada bukti transfer</p>
+                            @endif
+                        </li>
                     </ul>
                     </div>
                 </div>
