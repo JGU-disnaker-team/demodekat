@@ -12,7 +12,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.6",
-        "laravolt/indonesia": "^0.35.0",
+        "laravolt/indonesia": "*",
         "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^6.10",

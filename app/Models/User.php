@@ -36,6 +36,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'province_code',
         'status',
         'no_rekening',
+        'rt',
+        'rw',
     ];
 
     /**
@@ -70,9 +72,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function proofs()
-{
-    return $this->hasMany(WorkerProof::class);
-}
+    {
+        return $this->hasMany(WorkerProof::class);
+    }
     public function province()
     {
         return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code', 'code');
