@@ -84,6 +84,9 @@ class WorkerController extends Controller
                 'email' => 'required|email|unique:users,email,' . $id,
                 'no_telp' => 'required',
                 'status' => 'required',
+                'arrival_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'work_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'satisfaction_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if ($validated->fails()) {
