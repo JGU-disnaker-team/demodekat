@@ -28,7 +28,10 @@
                                 <x-form.text label="no_telp" for="no_telp" name="no_telp"
                                     value="{{ old('no_telp') }}" :error="$errors->first('no_telp')" required></x-form.text>
                             </div>
-
+                            <div class="col-md-6">
+                                <x-form.text label="Nomor Rekening" for="no_rekening" name="no_rekening"
+                                    value="{{ old('no_rekening') }}" :error="$errors->first('no_rekening')" required></x-form.text>
+                            </div> 
                             <div class="col-md-6">
                                 <x-form.number label="wallet" for="wallet" name="wallet"
                                     value="{{ old('wallet') }}" :error="$errors->first('wallet')" required></x-form.number>

@@ -27,7 +27,7 @@
                         </div>
                         <div class="contact-details-info">
                             <h6>Send Email</h6>
-                            <a href="mailto:example@gmail.com">example@gmail.com</a>
+                            <a href="mailto:example@gmail.com">disnakerkotadepok@gmail.com</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="contact-details-info">
                             <h6>Location</h6>
-                            <a href="#0">Jl. Margonda No.54, Kota Depok, Jawa Barat</a>
+                            <a href="#0">Jl. Margonda Raya No.54, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431</a>
                         </div>
                     </div>
                 </div>

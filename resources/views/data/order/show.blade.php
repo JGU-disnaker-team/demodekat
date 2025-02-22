@@ -52,7 +52,23 @@
                 <div class="card">
                     <div class="card-header">Detail Order</div>
                     <div class="card-body">
-
+                    <ul class="list-group">
+                         <li class="list-group-item">
+                            <strong>Layanan:</strong> {{ @$data->layanan->title }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Harga Member:</strong> {{ @$data->layanan->harga_member }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Harga Worker:</strong> {{ @$data->layanan->harga_worker }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Nama Worker:</strong> {{ @$data->worker->name ?? 'Belum Ditugaskan' }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Nama Member:</strong> {{ @$data->customer->name ?? 'Tidak Ada' }}
+                        </li>
+                    </ul>
                     </div>
                 </div>
             </div>
