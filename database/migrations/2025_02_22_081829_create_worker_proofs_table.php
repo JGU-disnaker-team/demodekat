@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('worker_proofs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('user_id'); // Pastikan tipe ini sesuai dengan `id` di `users`
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('type', ['arrival', 'work', 'satisfaction']);
             $table->string('image_path');
             $table->timestamps();
