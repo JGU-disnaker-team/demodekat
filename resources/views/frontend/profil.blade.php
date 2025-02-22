@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-form.text label="Nomor Rekening" for="no_rekening" name="no_rekening"
-                                    value="{{ old('no_rekening') }}" :error="$errors->first('no_rekening')" required></x-form.text>
+                                    value="{{ old('no_rekening', $data->no_rekening) }}" :error="$errors->first('no_rekening')" required></x-form.text>
                             </div>
                             <div class="col-md-12">
                                 <x-form.text label="alamat" for="alamat" name="alamat"

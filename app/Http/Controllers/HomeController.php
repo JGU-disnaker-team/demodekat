@@ -60,9 +60,10 @@ class HomeController extends Controller
         }
         $data->no_telp = $request->no_telp;
         $data->alamat = $request->alamat;
-        $fileimage       = $request->file('image');
+        $data->no_rekening = $request->no_rekening;
+        $fileimage = $request->file('image');
         if (!empty($fileimage)) {
-            $fileimageName   = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
+            $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
             Storage::putFileAs(
                 'public/user',
                 $fileimage,
@@ -131,6 +132,6 @@ class HomeController extends Controller
         $order->status_order = 1;
         $order->save();
 
-        return redirect('data/order/' . $order->id.'/success_order')->with('success', 'order berhasil di buat');
+        return redirect('data/order/' . $order->id . '/success_order')->with('success', 'order berhasil di buat');
     }
 }
