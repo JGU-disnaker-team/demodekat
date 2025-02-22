@@ -69,6 +69,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->avatar ? asset('storage/user') . '/' . $this->avatar : 'https://via.placeholder.com/150x150.png';
     }
 
+    public function proofs()
+{
+    return $this->hasMany(WorkerProof::class);
+}
     public function province()
     {
         return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code', 'code');
