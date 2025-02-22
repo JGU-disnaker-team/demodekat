@@ -44,12 +44,13 @@ class OrderController extends Controller
         return view('data.order.konfirmasi', compact('data', 'data_bank'));
     }
 
-    public function send_konfirmasi(Request $request, $id){
+    public function send_konfirmasi(Request $request, $id)
+    {
         $validated = Validator::make($request->all(), [
             'dari_bank' => 'required',
             'bank_id' => 'required|exists:banks,id',
             'nominal_transfer' => 'required',
-            'bukti_transfer' => 'required',
+            'bukti_transfer' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validated->fails()) {
@@ -68,9 +69,9 @@ class OrderController extends Controller
         $order->bank_id = $request->bank_id;
         $order->nominal_transfer = $request->nominal_transfer;
         $order->status_pembayaran = 2;
-        $fileimage       = $request->file('bukti_transfer');
+        $fileimage = $request->file('bukti_transfer');
         if (!empty($fileimage)) {
-            $fileimageName   = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
+            $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
             Storage::putFileAs(
                 'public/bukti_bayar',
                 $fileimage,
@@ -119,7 +120,7 @@ class OrderController extends Controller
         $data->status_order = 4;
         $data->update();
 
-        $user = User::where('id',$data->worker_id)->first();
+        $user = User::where('id', $data->worker_id)->first();
         $user->wallet = $user->wallet + $data->harga_worker;
         $user->update();
 
