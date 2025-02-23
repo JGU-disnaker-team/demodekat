@@ -150,6 +150,14 @@ class OrderController extends Controller
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
+        $data = Order::with([
+            'customer.village',
+            'customer.district',
+            'customer.city',
+            'customer.province',
+            // 'customer.rt',
+            // 'customer.rw',
+        ])->findOrFail($id);
 
         $workerProofs = WorkerProof::where('order_id', $id)->get();
 

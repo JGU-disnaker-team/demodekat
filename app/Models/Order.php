@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravolt\Indonesia\Models\Province as IndonesiaProvince;
+use Laravolt\Indonesia\Models\City as IndonesiaCity;
+use Laravolt\Indonesia\Models\District as IndonesiaDistrict;
+use Laravolt\Indonesia\Models\Village as IndonesiaVillage;
 
 class Order extends Model
 {
@@ -73,5 +77,29 @@ class Order extends Model
     public function workerProofs()
     {
         return $this->hasMany(WorkerProof::class);
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(IndonesiaProvince::class, 'province_code', 'code');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(IndonesiaCity::class, 'city_code', 'code');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(IndonesiaDistrict::class, 'district_code', 'code');
+    }
+
+    public function village()
+    {
+        return $this->belongsTo(IndonesiaVillage::class, 'village_code', 'code');
+    }
+    public function getRtRwAttribute()
+    {
+        return 'RT ' . $this->rt . ' / RW ' . $this->rw;
     }
 }

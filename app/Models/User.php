@@ -12,6 +12,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravolt\Indonesia\Models\Province as IndonesiaProvince;
+use Laravolt\Indonesia\Models\City as IndonesiaCity;
+use Laravolt\Indonesia\Models\District as IndonesiaDistrict;
+use Laravolt\Indonesia\Models\Village as IndonesiaVillage;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -77,21 +82,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function province()
     {
-        return $this->belongsTo('Laravolt\Indonesia\Models\Province', 'province_code', 'code');
+        return $this->belongsTo(IndonesiaProvince::class, 'province_code', 'code');
     }
 
     public function city()
     {
-        return $this->belongsTo('Laravolt\Indonesia\Models\City', 'city_code', 'code');
+        return $this->belongsTo(IndonesiaCity::class, 'city_code', 'code');
     }
 
     public function district()
     {
-        return $this->belongsTo('Laravolt\Indonesia\Models\District', 'district_code', 'code');
+        return $this->belongsTo(IndonesiaDistrict::class, 'district_code', 'code');
     }
 
     public function village()
     {
-        return $this->belongsTo('Laravolt\Indonesia\Models\Village', 'village_code', 'code');
+        return $this->belongsTo(IndonesiaVillage::class, 'village_code', 'code');
     }
+
 }

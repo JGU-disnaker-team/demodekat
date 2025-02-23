@@ -26,6 +26,14 @@
                             <ul class="list-group">
                                 <li class="list-group-item">{{ optional($data->customer)->name }}</li>
                                 <li class="list-group-item">{{ optional($data->customer)->alamat }}</li>
+                                <li class="list-group-item">
+                                    RT {{ @$data->customer->rt }} / RW {{ @$data->customer->rw }} <br>
+                                    Kelurahan {{ optional($data->customer->village)->name }},
+                                    Kecamatan {{ optional($data->customer->district)->name }},
+                                    {{ optional($data->customer->city)->name }},
+                                    {{ optional($data->customer->province)->name }}
+                                </li>
+                                
                                 @if ($user->getRoleNames()[0] == 'superadmin')
                                     <li class="list-group-item">{{ @$data->customer->no_telp }}</li>
                                 @endif
@@ -53,29 +61,18 @@
                     <div class="card-header">Detail Order</div>
                     <div class="card-body">
                     <ul class="list-group">
-                         <li class="list-group-item">
-                            <strong>Layanan:</strong> {{ @$data->layanan->title }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Harga Member:</strong> {{ @$data->layanan->harga_member }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Harga Worker:</strong> {{ @$data->layanan->harga_worker }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Nama Worker:</strong> {{ @$data->worker->name ?? 'Belum Ditugaskan' }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Nama Member:</strong> {{ @$data->customer->name ?? 'Tidak Ada' }}
-                        </li>
                         <li class="list-group-item">
                             <strong>Bukti Transfer:</strong> <br>
-                            @if (!empty($data->bukti_transfer))
-                                <a href="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" target="_blank">
-                                    <img src="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" alt="Bukti Transfer" width="200">
-                                </a>
+                            @if ($user->hasRole('superadmin') || $user->hasRole('member'))
+                                @if (!empty($data->bukti_transfer))
+                                    <a href="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" target="_blank">
+                                        <img src="{{ asset('storage/bukti_bayar/' . $data->bukti_transfer) }}" alt="Bukti Transfer" width="200">
+                                    </a>
+                                @else
+                                    <p>Tidak ada bukti transfer</p>
+                                @endif
                             @else
-                                <p>Tidak ada bukti transfer</p>
+                                <p>Pembayaran sudah dikonfirmasi</p>
                             @endif
                         </li>
                         <li class="list-group-item">
