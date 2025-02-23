@@ -120,9 +120,6 @@
                             </div>
 
                             <div class="header-right-column d-flex align-items-center">
-                                <div class="header-right-contact">
-                                    <a href="tel:+48615579822"><i class="icon-call-2"></i> +48 615 579 822</a>
-                                </div>
                                 <div class="header-right-btn-area">
                                     @guest
                                         <a href="{{ url('login') }}" class="btn-1">Login</a>
@@ -191,7 +188,7 @@
                                 <div class="about-widget-inner">
                                     <h6 class="footer-widget-title">Tentang</h6>
                                     <p class="text-justify">
-                                        Dekat adalah sebuah layanan jasa digital dari Disnaker Kota Depok yang berfungsi untuk mencari layanan jasa dan membantu masyarakat di Kota Depok, para mitra yang tergabung sebagai pemberi jasa adalah Mitra yang Berpengalaman, Profesional Bergaransi dan Bersertifikat resmi dari pelatihan BNSP.
+                                        Dekat adalah platform layanan digital yang dikembangkan oleh Disnaker Kota Depok untuk mempermudah masyarakat dalam mencari dan menggunakan berbagai jasa profesional. Kami menghadirkan layanan dengan paket lengkap dan harga tetap, dirancang untuk memenuhi kebutuhan Anda secara praktis dan efisien.
                                     </p>
 
                                 </div>
@@ -212,7 +209,7 @@
                                 <div class="support-widget-inner">
                                     <h6 class="footer-widget-title">Suport</h6>
                                     <ul class="footer-widget-list">
-                                        <li><a href="#0">FAQs</a></li>
+                                        <li><a href="#0">Tutorial</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -38,6 +38,9 @@
 /* contact-details */
 .contact-details{
     padding: 120px 0 90px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 }
 .contact-details-content{
     display: flex;
@@ -80,6 +83,15 @@
     font-weight: 400;
     line-height: 30px;
 }
+.contact-details .container {
+    width: 100%;
+    max-width: 1200px; /* Sesuaikan dengan lebar maksimum yang Anda inginkan */
+}
+
+.contact-details .row {
+    justify-content: center; /* Menengahkan kolom-kolom di dalam row */
+}
+
 
 
 /* contact page */
