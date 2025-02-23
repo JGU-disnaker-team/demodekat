@@ -7,6 +7,10 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="initial-province" content="{{ Auth::user()->province_code }}">
+    <meta name="initial-city" content="{{ Auth::user()->city_code }}">
+    <meta name="initial-district" content="{{ Auth::user()->district_code }}">
+    <meta name="initial-village" content="{{ Auth::user()->village_code }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -151,6 +155,7 @@
             csrfToken: '{{ csrf_token() }}'
         };
     </script>
+    <script src="{{ asset('js/address-dropdown.js') }}"></script>
     <script>
         $('.dropify').dropify();
     </script>

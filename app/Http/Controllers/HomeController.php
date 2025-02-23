@@ -43,7 +43,7 @@ class HomeController extends Controller
     public function profil()
     {
         $data = Auth::user();
-        $provinces = province::all();
+        $provinces = province::whereIn('code', ['36', '32', '31'])->get();
         return view('frontend.profil', compact('data', 'provinces'));
     }
 
@@ -135,7 +135,9 @@ class HomeController extends Controller
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
-        return view('frontend.pesan', compact('data'));
+        $provinces = province::whereIn('code', ['36', '32', '31'])->get();
+        $user = Auth::user();
+        return view('frontend.pesan', compact('data', 'provinces', 'user'));
     }
 
     public function send_order(Request $request)
@@ -145,6 +147,10 @@ class HomeController extends Controller
             'waktu' => 'required',
             'no_telp' => 'required',
             'alamat' => 'required',
+            'province_code' => 'required|exists:indonesia_provinces,code',
+            'city_code' => 'required|exists:indonesia_cities,code',
+            'district_code' => 'required|exists:indonesia_districts,code',
+            'village_code' => 'required|exists:indonesia_villages,code',
         ]);
 
         if ($validated->fails()) {
@@ -169,6 +175,10 @@ class HomeController extends Controller
         $order->nominal = $layanan->harga_member + rand(100, 999);
         $order->waktu = $dateTime;
         $order->alamat = $request->alamat;
+        $order->province_code = $request->province_code;
+        $order->city_code = $request->city_code;
+        $order->district_code = $request->district_code;
+        $order->village_code = $request->village_code;
         $order->status_pembayaran = 1;
         $order->status_order = 1;
         $order->save();

@@ -16,6 +16,11 @@
      
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="initial-province" content="{{ Auth::user()->province_code }}">
+    <meta name="initial-city" content="{{ Auth::user()->city_code }}">
+    <meta name="initial-district" content="{{ Auth::user()->district_code }}">
+    <meta name="initial-village" content="{{ Auth::user()->village_code }}">
 
 </head>
 
@@ -278,6 +283,7 @@
     <script src="{{ asset('assets/js/flatpickr-min.js') }}"></script>
     <script src="{{ asset('assets/js/socialSharing.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    @stack('scripts')
 
 </body>
 
