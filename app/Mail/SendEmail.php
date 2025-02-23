@@ -20,7 +20,7 @@ class SendEmail extends Mailable
      */
     public function __construct($data)
     {
-        $this->data = $data; // tambahkan ini
+        $this->data = $data;
     }
 
     /**
@@ -29,8 +29,7 @@ class SendEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->data['subject'], // tambahkan ini
-        );
+            subject: $this->data['subject'],
     }
 
     /**
@@ -39,7 +38,7 @@ class SendEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.send_email', // tambahkan ini
+            view: 'emails.send_email',
         );
     }
 
