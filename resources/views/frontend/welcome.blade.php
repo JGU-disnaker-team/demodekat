@@ -14,7 +14,7 @@
                     <div class="swiper-wrapper">
                         @forelse($slider_all as $slider)
                             <div class="swiper-slide testimonial-slider-item">
-                                <a href="#">
+                                <a href="{{ $slider->link }}" target="_blank">
                                     <img src="{{ $slider->image_url }}" class="w-100">
                                 </a>
                             </div>
