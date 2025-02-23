@@ -19,6 +19,10 @@ class WorkerController extends Controller
 {
     // ... method index, create, store tetap sama
 
+    public function index(WorkerDataTable $dataTable)
+{
+    return $dataTable->render('data.user.worker.index');
+}
     public function update(Request $request, $id)
     {
         $validated = Validator::make($request->all(), [
