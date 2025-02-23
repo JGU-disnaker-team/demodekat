@@ -24,20 +24,41 @@ class FrontendController extends Controller
 
     public function layanan(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'kategori' => 'nullable|string', // UUID adalah string
+            'cari' => 'nullable|string',
+        ]);
+
+        // Ambil parameter dari request
         $kategori = $request->kategori;
         $cari = $request->cari;
 
+        // Ambil semua kategori yang aktif
         $kategori_all = Kategori::where('status', 1)->orderBy('no_urut')->get();
 
+        // Query layanan
         $query = Layanan::query();
         $query->where('status', 1);
+
+        // Filter berdasarkan pencarian
         if (!empty($cari)) {
             $query->where('title', 'like', '%' . $cari . '%');
         }
+
+        // Filter berdasarkan kategori (UUID)
         if (!empty($kategori)) {
-            $query->wherein('kategori_id', $kategori);
+            $query->where('kategori_id', $kategori);
         }
-        $layanan_all = $query->with('kategori')->latest()->paginate(15);
+
+        // Paginasi hasil query
+        try {
+            $layanan_all = $query->with('kategori')->latest()->paginate(15);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat data.');
+        }
+
+        // Tampilkan view dengan data
         return view('frontend.layanan', compact('layanan_all', 'kategori_all', 'kategori', 'cari'));
     }
 

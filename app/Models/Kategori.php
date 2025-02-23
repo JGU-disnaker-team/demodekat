@@ -12,12 +12,15 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Kategori extends Model
 {
     use HasUuids;
+    protected $table = 'kategoris';
 
     protected $fillable = [
         'no_urut',
-        'title',
         'image',
+        'title',
         'status',
+        'created_at',
+        'updated_at',
     ];
 
 

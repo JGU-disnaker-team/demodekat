@@ -92,6 +92,9 @@
     line-height: 30px;
     margin-bottom: 18px;
 }
+.text-justify {
+    text-align: justify;
+}
 .about-widget p {
     max-width: 276px;
     width: 100%;

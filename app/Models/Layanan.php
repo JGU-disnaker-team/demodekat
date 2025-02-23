@@ -33,8 +33,8 @@ class Layanan extends Model
         return isset($status[$this->status]) ? $status[$this->status] : '';
     }
 
-    public function kategori(): BelongsTo
+    public function kategori(): belongsTo
     {
-        return $this->BelongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 }

@@ -14,10 +14,27 @@ use Yajra\DataTables\DataTables;
 
 class LayananController extends Controller
 {
-    public function index(LayananDataTable $dataTable)
+    public function index(Request $request)
     {
-        return $dataTable->render('data.layanan.index');
+        $kategori = $request->input('kategori');
+        $cari = $request->input('cari');
+
+        $query = Layanan::query();
+
+        if (!empty($kategori)) {
+            $query->where('kategori_id', $kategori);
+        }
+
+        if (!empty($cari)) {
+            $query->where('title', 'like', '%' . $cari . '%');
+        }
+
+        $layanan_all = $query->paginate(12);
+        $kategori_all = Kategori::all();
+
+        return view('layanan', compact('layanan_all', 'kategori_all', 'kategori', 'cari'));
     }
+
 
     public function create()
     {

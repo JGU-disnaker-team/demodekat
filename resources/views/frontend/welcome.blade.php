@@ -45,16 +45,19 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="categories-single">
                             <div class="categories-single-image">
-                                <a href="{{ url('layanan?kategori=' . $kategori->id) }}">
-                                    <img src="{{ $kategori->image_url }}" class="w-100" alt="image">
+                                <a href="{{ url('layanan') }}?kategori={{ $kategori->id }}">
+                                    <img src="{{ $kategori->image_url }}" class="w-100" alt="{{ $kategori->title }}">
                                 </a>
                             </div>
                             <div class="categories-single-title">
-                                <a href="{{ url('layanan?kategori=' . $kategori->id) }}">{{ $kategori->title }} </a>
+                                <a href="{{ url('layanan') }}?kategori={{ $kategori->id }}">{{ $kategori->title }}</a>
                             </div>
                         </div>
                     </div>
                 @empty
+                    <div class="col-12 text-center">
+                        <p>Tidak ada kategori yang tersedia.</p>
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -130,7 +133,7 @@
         <div class="container">
             <div class="common-title">
                 <img src="{{ asset('assets/images/shape/title-shape-1.png') }}" alt="shape">
-                <h6>FEATURED</h6>
+                <h6>DITAMPILKAN</h6>
                 <h3>Layanan Terpopuler</h3>
             </div>
             <div class="row g-4">
@@ -234,7 +237,7 @@
                 <div class="common-title text-center">
                     <img src="{{ asset('assets/images/shape/title-shape-1.png') }}" alt="shape">
                     <h6>TESTIMONIAL</h6>
-                    <h3>Our Stories As Told By Customers</h3>
+                    <h3>Cerita Kami Melalui Ulasan Pelanggan</h3>
                 </div>
 
                 <div class="testimonial-carousel">
