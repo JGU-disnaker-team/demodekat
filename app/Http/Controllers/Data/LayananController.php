@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers\Data;
 
+use App\Models\Layanan;
+use App\Models\Kategori;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\DataTables\LayananDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\Layanan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class LayananController extends Controller
 {
-    public function index(Request $request)
+    public function index(LayananDataTable $dataTable)
+    {
+        return $dataTable->render('data.layanan.index');
+    }
+
+    public function kategori(Request $request)
     {
         $kategori = $request->input('kategori');
         $cari = $request->input('cari');
@@ -64,9 +70,9 @@ class LayananController extends Controller
         $data->harga_worker = $request->harga_worker;
         $data->featured = $request->featured;
         $data->status = $request->status;
-        $fileimage       = $request->file('image');
+        $fileimage = $request->file('image');
         if (!empty($fileimage)) {
-            $fileimageName   = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
+            $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
             Storage::putFileAs(
                 'public/layanan',
                 $fileimage,
@@ -105,9 +111,9 @@ class LayananController extends Controller
         $data->harga_worker = $request->harga_worker;
         $data->featured = $request->featured;
         $data->status = $request->status;
-        $fileimage       = $request->file('image');
+        $fileimage = $request->file('image');
         if (!empty($fileimage)) {
-            $fileimageName   = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
+            $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
             Storage::putFileAs(
                 'public/layanan',
                 $fileimage,
