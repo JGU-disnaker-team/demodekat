@@ -70,4 +70,8 @@ class Order extends Model
     {
         return $this->bukti_transfer ? asset('storage/bukti_bayar') . '/' . $this->bukti_transfer : '';
     }
+    public function workerProofs()
+    {
+        return $this->hasMany(WorkerProof::class);
+    }
 }

@@ -78,18 +78,34 @@
                                 <p>Tidak ada bukti transfer</p>
                             @endif
                         </li>
-                        {{-- @foreach ($workerProofs as $proof)
-    <li class="list-group-item">
-        <strong>Bukti Pekerjaan:</strong> <br>
-        <a href="{{ asset('storage/' . $proof->image_path) }}" target="_blank">
-            <img src="{{ asset('storage/' . $proof->image_path) }}" 
-                 alt="Bukti Pekerjaan" 
-                 width="200" 
-                 style="object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-        </a>
-    </li>
-@endforeach --}}
-                        
+                        <li class="list-group-item">
+                            <strong>Bukti Pekerjaan Worker:</strong> <br>
+                            
+                            @if($data->workerProofs->isNotEmpty())
+                                <div class="row">
+                                    @foreach($data->workerProofs as $proof)
+                                        <div class="col-md-3 mb-2">
+                                            <a href="{{ Storage::url($proof->image_path) }}" target="_blank">
+                                                <img src="{{ Storage::url($proof->image_path) }}" class="img-thumbnail" width="150">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p>Belum ada bukti pekerjaan.</p>
+                            @endif
+                        </li>
+
+                        @if(Auth::user()->id == $data->worker_id)
+                            <li class="list-group-item">
+                                <strong>Unggah Bukti Pekerjaan:</strong> <br>
+                                <form action="{{ route('order.upload_proof', $data->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="image" class="form-control mb-2" required>
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </form>
+                            </li>
+                        @endif
                     </ul>
                     </div>
                 </div>

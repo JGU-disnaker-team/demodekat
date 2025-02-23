@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Data;
 
+use App\Models\Bank;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Layanan;
+use App\Models\UserWallet;
+use App\Models\WorkerProof;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\DataTables\OrderDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\Bank;
-use App\Models\Layanan;
-use App\Models\Order;
-use App\Models\User;
-use App\Models\UserWallet;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -44,7 +45,8 @@ class OrderController extends Controller
         return view('data.order.konfirmasi', compact('data', 'data_bank'));
     }
 
-    public function send_konfirmasi(Request $request, $id){
+    public function send_konfirmasi(Request $request, $id)
+    {
         $validated = Validator::make($request->all(), [
             'dari_bank' => 'required',
             'bank_id' => 'required|exists:banks,id',
@@ -68,9 +70,9 @@ class OrderController extends Controller
         $order->bank_id = $request->bank_id;
         $order->nominal_transfer = $request->nominal_transfer;
         $order->status_pembayaran = 2;
-        $fileimage       = $request->file('bukti_transfer');
+        $fileimage = $request->file('bukti_transfer');
         if (!empty($fileimage)) {
-            $fileimageName   = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
+            $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
             Storage::putFileAs(
                 'public/bukti_bayar',
                 $fileimage,
@@ -119,7 +121,7 @@ class OrderController extends Controller
         $data->status_order = 4;
         $data->update();
 
-        $user = User::where('id',$data->worker_id)->first();
+        $user = User::where('id', $data->worker_id)->first();
         $user->wallet = $user->wallet + $data->harga_worker;
         $user->update();
 
@@ -148,7 +150,36 @@ class OrderController extends Controller
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
+
+        $workerProofs = WorkerProof::where('order_id', $id)->get();
+
         return view('data.order.show', compact('data'));
+    }
+
+    public function uploadProof(Request $request, $orderId)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $order = Order::findOrFail($orderId);
+
+        // Pastikan hanya worker yang ditugaskan yang dapat mengunggah bukti
+        if (Auth::user()->id !== $order->worker_id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengunggah bukti ini.');
+        }
+
+        // Simpan gambar
+        $imagePath = $request->file('image')->store('worker_proof', 'public');
+
+        // Simpan ke database
+        WorkerProof::create([
+            'user_id' => Auth::id(),
+            'order_id' => $orderId,
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->back()->with('success', 'Bukti pekerjaan berhasil diunggah.');
     }
 
     public function destroy($id)

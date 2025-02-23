@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/data/order/{id}/bayar_ditolak', [App\Http\Controllers\Data\OrderController::class, 'bayar_ditolak']);
     Route::get('/data/order/{id}/terima_pekerjaan', [App\Http\Controllers\Data\OrderController::class, 'terima_pekerjaan']);
     Route::get('/data/order/{id}/selesai_pekerjaan', [App\Http\Controllers\Data\OrderController::class, 'selesai_pekerjaan']);
+    Route::get('/data/order/{id}/upload-proof', [App\Http\Controllers\Data\OrderController::class, 'uploadProof'])->name('order.upload_proof');
+    Route::post('/data/order/{id}/upload-proof', [App\Http\Controllers\Data\OrderController::class, 'uploadProof'])->name('order.upload_proof');
     Route::resource('/data/order', App\Http\Controllers\Data\OrderController::class);
 
     Route::get('/data/withdraw/{id}/diproses', [App\Http\Controllers\Data\WithdrawController::class, 'diproses'])->middleware('role:superadmin');
