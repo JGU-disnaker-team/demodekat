@@ -27,11 +27,10 @@ if (!function_exists('status_publish')) {
     {
         return array(
             1 => 'Publish',
-            2 => 'Darft',
+            2 => 'Draft',
         );
     }
 }
-
 
 if (!function_exists('jam_layanan')) {
     function jam_layanan()

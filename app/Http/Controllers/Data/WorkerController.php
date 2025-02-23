@@ -17,26 +17,64 @@ use Yajra\DataTables\DataTables;
 
 class WorkerController extends Controller
 {
-    // ... method index, create, store tetap sama
-
     public function index(WorkerDataTable $dataTable)
-{
-    return $dataTable->render('data.user.worker.index');
-}
+    {
+        return $dataTable->render('data.user.worker.index');
+    }
 
-public function create()
-{
-    return view('data.user.worker.create'); // Make sure this view exists
-}
+    public function store(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users', // Sesuaikan dengan tabel workers
+            'password' => 'required|min:6',
 
-public function show($id)
-{
-    // Find the user by ID
-    $user = User::findOrFail($id);
+        ]);
 
-    // Return a view for displaying user details
-    return view('data.user.worker.show', compact('user'));
-}
+        if ($validated->fails()) {
+            Session::flash('warning', 'Data gagal disimpan');
+            return redirect()->back()
+                ->withErrors($validated)
+                ->withInput();
+        }
+
+        // Simpan data ke database
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->no_telp = $request->no_telp;
+        $data->alamat = $request->alamat;
+        $data->status = $request->status;
+
+        // Proses Upload Foto Worker
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            Storage::putFileAs('public/worker', $file, $fileName);
+            $data->avatar = $fileName;
+        }
+
+        $data->save();
+        $data->assignRole('worker');
+
+        Session::flash('success', 'Worker berhasil disimpan');
+        return redirect()->route('worker.index');
+    }
+
+    public function create()
+    {
+        return view('data.user.worker.create'); // Make sure this view exists
+    }
+
+    public function show($id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Return a view for displaying user details
+        return view('data.user.worker.show', compact('user'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -85,8 +123,8 @@ public function show($id)
     private function handleProofs(User $user, Request $request)
     {
         // Hapus semua bukti lama
-        $user->proofs()->each(function($proof) {
-            Storage::delete('public/proofs/'.$proof->image_path);
+        $user->proofs()->each(function ($proof) {
+            Storage::delete('public/proofs/' . $proof->image_path);
             $proof->delete();
         });
 
@@ -98,7 +136,7 @@ public function show($id)
 
     private function uploadProof(User $user, string $type, $file)
     {
-        $filename = 'proof_'.$type.'_'.date('YmdHis').'.'.$file->getClientOriginalExtension();
+        $filename = 'proof_' . $type . '_' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
 
         $file->storeAs('public/proofs', $filename);
 
@@ -114,8 +152,8 @@ public function show($id)
         $data = User::findOrFail($id);
 
         // Hapus semua bukti
-        $data->proofs()->each(function($proof) {
-            Storage::delete('public/proofs/'.$proof->image_path);
+        $data->proofs()->each(function ($proof) {
+            Storage::delete('public/proofs/' . $proof->image_path);
             $proof->delete();
         });
 
