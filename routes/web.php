@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/data/kontak', [App\Http\Controllers\HomeController::class, 'kontak']);
     Route::resource('/data/member', App\Http\Controllers\Data\MemberController::class)->middleware('role:superadmin');
     Route::resource('/data/worker', App\Http\Controllers\Data\WorkerController::class)->middleware('role:superadmin');
+    Route::get('worker/create', [WorkerController::class, 'create'])->name('worker.create');
     Route::resource('/data/admin', App\Http\Controllers\Data\AdminController::class)->middleware('role:superadmin');
 
     Route::get('/data/order/{id}/success_order', [App\Http\Controllers\Data\OrderController::class, 'success_order']);

@@ -23,6 +23,11 @@ class WorkerController extends Controller
 {
     return $dataTable->render('data.user.worker.index');
 }
+
+public function create()
+{
+    return view('data.user.worker.create'); // Make sure this view exists
+}
     public function update(Request $request, $id)
     {
         $validated = Validator::make($request->all(), [
