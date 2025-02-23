@@ -16,58 +16,35 @@
     </section>
     <!-- common banner -->
 
-    <!-- contact details -->
-    <section class="contact-details">
+    <!-- Info Kontak -->
+    <section class="contact-details py-5">
         <div class="container">
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-lg-3 col-md-6">
-                    <div class="contact-details-content">
-                        <div class="contact-details-icon">
-                            <i class="fa-light fa-envelope"></i>
+                    <div class="contact-card h-100 p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-all">
+                        <div class="contact-icon mb-3">
+                            <i class="fas fa-envelope fa-2x text-primary"></i>
                         </div>
-                        <div class="contact-details-info">
-                            <h6>Send Email</h6>
-                            <a href="mailto:example@gmail.com">disnakerkotadepok@gmail.com</a>
+                        <div class="contact-info">
+                            <h5 class="mb-2">Email</h5>
+                            <a href="mailto:dekat@solusicosmo.com" class="text-decoration-none">dekat@solusicosmo.com</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <div class="contact-details-content">
-                        <div class="contact-details-icon">
-                            <i class="icon-call"></i>
+                    <div class="contact-card h-100 p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-all">
+                        <div class="contact-icon mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
                         </div>
-                        <div class="contact-details-info">
-                            <h6>Call Us Now</h6>
-                            <a href="tel:+880123(4567)890">+880 123 (4567) 890</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-details-content">
-                        <div class="contact-details-icon">
-                            <i class="fa-sharp fa-light fa-location-dot"></i>
-                        </div>
-                        <div class="contact-details-info">
-                            <h6>Location</h6>
-                            <a href="#0">Jl. Margonda Raya No.54, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-details-content">
-                        <div class="contact-details-icon">
-                            <i class="fa-sharp fa-light fa-alarm-clock"></i>
-                        </div>
-                        <div class="contact-details-info">
-                            <h6>Update Info</h6>
-                            <a href="#0">24/7 Support</a>
+                        <div class="contact-info">
+                            <h5 class="mb-2">Alamat</h5>
+                            <p class="mb-0">Jl. Margonda Raya No.54, Depok, Jawa Barat 16431</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- contact details -->
 
 
     <!-- contact -->
@@ -77,7 +54,7 @@
                 <div class="col-lg-6">
                     <div class="contact-left-container">
                         <div class="contact-image">
-                            <img src="{{ asset('assets/images/resource/contact-image.jpg') }}" alt="image">
+                            <img src="{{ asset('assets/images/resource/masukan.png') }}" alt="image">
                         </div>
                         <div class="contact-shape">
                             <img src="{{ asset('assets/images/shape/shape-3.png') }}" alt="image">
@@ -88,7 +65,7 @@
 
                 <div class="col-lg-6">
                     <div class="contact-form">
-                        <h3>Sent A Message</h3>
+                        <h3>Kirim Masukan</h3>
                         @if (Session::has('success'))
                             <div class="mt-3 alert alert-success">
                                 <div class="alert-body">Terima kasih sudah mengirimkan Pesan kepada kami</div>

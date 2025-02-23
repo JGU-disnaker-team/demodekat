@@ -13,6 +13,11 @@
     border-bottom: 1px solid var(--border-color-1);
 }
 
+.footer-top-logo img {
+    width: 100px; 
+    height: auto; 
+}
+
 .social-media ul{
     display: flex;
     align-items: center;
