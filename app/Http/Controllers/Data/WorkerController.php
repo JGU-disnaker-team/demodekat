@@ -28,6 +28,16 @@ public function create()
 {
     return view('data.user.worker.create'); // Make sure this view exists
 }
+
+public function show($id)
+{
+    // Find the user by ID
+    $user = User::findOrFail($id);
+
+    // Return a view for displaying user details
+    return view('data.user.worker.show', compact('user'));
+}
+
     public function update(Request $request, $id)
     {
         $validated = Validator::make($request->all(), [

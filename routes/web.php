@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/data/worker', App\Http\Controllers\Data\WorkerController::class)->middleware('role:superadmin');
     Route::get('worker/create', [WorkerController::class, 'create'])->name('worker.create');
     Route::resource('/data/admin', App\Http\Controllers\Data\AdminController::class)->middleware('role:superadmin');
-
+    Route::get('workers/{id}', [WorkerController::class, 'show'])->name('worker.show');
     Route::get('/data/order/{id}/success_order', [App\Http\Controllers\Data\OrderController::class, 'success_order']);
     Route::get('/data/order/{id}/konfirmasi', [App\Http\Controllers\Data\OrderController::class, 'konfirmasi']);
     Route::post('/data/order/{id}/send_konfirmasi', [App\Http\Controllers\Data\OrderController::class, 'send_konfirmasi']);
