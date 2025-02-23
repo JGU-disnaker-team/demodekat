@@ -24,8 +24,8 @@
                         <div class="card-header text-capitalize">Customer</div>
                         <div class="card-body p-0">
                             <ul class="list-group">
-                                <li class="list-group-item">{{ @$data->customer->name }}</li>
-                                <li class="list-group-item">{{ @$data->customer->alamat }}</li>
+                                <li class="list-group-item">{{ optional($data->customer)->name }}</li>
+                                <li class="list-group-item">{{ optional($data->customer)->alamat }}</li>
                                 @if ($user->getRoleNames()[0] == 'superadmin')
                                     <li class="list-group-item">{{ @$data->customer->no_telp }}</li>
                                 @endif
@@ -34,18 +34,18 @@
                     </div>
                 @endif
                 @if ($user->getRoleNames()[0] == 'superadmin' || $user->getRoleNames()[0] == 'member')
-                    <div class="card mb-3">
-                        <div class="card-header text-capitalize">worker</div>
-                        <div class="card-body p-0">
-                            <ul class="list-group">
-                                <li class="list-group-item">{{ @$data->customer->name }}</li>
-                                <li class="list-group-item">{{ @$data->customer->alamat }}</li>
-                                @if ($user->getRoleNames()[0] == 'superadmin')
-                                    <li class="list-group-item">{{ @$data->customer->no_telp }}</li>
-                                @endif
-                            </ul>
-                        </div>
+                <div class="card mb-3">
+                    <div class="card-header text-capitalize">Worker</div>
+                    <div class="card-body p-0">
+                        <ul class="list-group">
+                            <li class="list-group-item">{{ optional($data->worker)->name }}</li>
+                            <li class="list-group-item">{{ optional($data->worker)->alamat }}</li>
+                            @if ($user->getRoleNames()[0] == 'superadmin')
+                                <li class="list-group-item">{{ optional($data->worker)->no_telp }}</li>
+                            @endif
+                        </ul>
                     </div>
+                </div>
                 @endif
             </div>
             <div class="col-md-8">
@@ -78,6 +78,18 @@
                                 <p>Tidak ada bukti transfer</p>
                             @endif
                         </li>
+                        {{-- @foreach ($workerProofs as $proof)
+    <li class="list-group-item">
+        <strong>Bukti Pekerjaan:</strong> <br>
+        <a href="{{ asset('storage/' . $proof->image_path) }}" target="_blank">
+            <img src="{{ asset('storage/' . $proof->image_path) }}" 
+                 alt="Bukti Pekerjaan" 
+                 width="200" 
+                 style="object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        </a>
+    </li>
+@endforeach --}}
+                        
                     </ul>
                     </div>
                 </div>
