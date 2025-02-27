@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class WorkerCategory extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name', 'description'];
+
+    public function workers()
+    {
+        return $this->belongsToMany(User::class, 'user_worker_category');
+    }
 }
