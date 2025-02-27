@@ -100,4 +100,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(IndonesiaVillage::class, 'village_code', 'code');
     }
 
+    public function categories()
+{
+    return $this->belongsToMany(WorkerCategory::class, 'user_worker_category');
+}
+
 }
