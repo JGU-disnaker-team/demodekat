@@ -23,48 +23,48 @@ class WorkerController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users', // Sesuaikan dengan tabel workers
-            'password' => 'required|min:6',
+{
+    $validated = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:6',
+        'worker_category_id' => 'required|exists:worker_categories,id', // Validasi kategori
+    ]);
 
-        ]);
-
-        if ($validated->fails()) {
-            Session::flash('warning', 'Data gagal disimpan');
-            return redirect()->back()
-                ->withErrors($validated)
-                ->withInput();
-        }
-
-        // Simpan data ke database
-        $data = new User();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->no_telp = $request->no_telp;
-        $data->alamat = $request->alamat;
-        $data->status = $request->status;
-
-        // Proses Upload Foto Worker
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            Storage::putFileAs('public/worker', $file, $fileName);
-            $data->avatar = $fileName;
-        }
-
-        $data->save();
-        $data->assignRole('worker');
-
-        Session::flash('success', 'Worker berhasil disimpan');
-        return redirect()->route('worker.index');
+    if ($validated->fails()) {
+        Session::flash('warning', 'Data gagal disimpan');
+        return redirect()->back()
+            ->withErrors($validated)
+            ->withInput();
     }
+
+    $data = new User();
+    $data->name = $request->name;
+    $data->email = $request->email;
+    $data->password = bcrypt($request->password);
+    $data->no_telp = $request->no_telp;
+    $data->alamat = $request->alamat;
+    $data->status = $request->status;
+    $data->worker_category_id = $request->worker_category_id; // Tambahkan ini
+
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        Storage::putFileAs('public/worker', $file, $fileName);
+        $data->avatar = $fileName;
+    }
+
+    $data->save();
+    $data->assignRole('worker');
+
+    Session::flash('success', 'Worker berhasil disimpan');
+    return redirect()->route('worker.index');
+}
 
     public function create()
     {
-        return view('data.user.worker.create'); // Make sure this view exists
+        $categories = \App\Models\WorkerCategory::all(); // Ambil semua kategori
+    return view('data.user.worker.create', compact('categories'));
     }
 
     public function show($id)
@@ -75,7 +75,6 @@ class WorkerController extends Controller
         // Return a view for displaying user details
         return view('data.user.worker.show', compact('user'));
     }
-
     public function update(Request $request, $id)
     {
         $validated = Validator::make($request->all(), [
@@ -84,7 +83,8 @@ class WorkerController extends Controller
             'status' => 'required',
             'arrival_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'work_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'satisfaction_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'satisfaction_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'worker_category_id' => 'required|exists:worker_categories,id',
         ]);
 
         if ($validated->fails()) {
@@ -101,7 +101,8 @@ class WorkerController extends Controller
             'email' => $request->email,
             'no_telp' => $request->no_telp,
             'status' => $request->status,
-            'password' => $request->password ? bcrypt($request->password) : $data->password
+            'password' => $request->password ? bcrypt($request->password) : $data->password,
+            'worker_category_id' => $request->worker_category_id,
         ]);
 
         // Update gambar profil
@@ -119,7 +120,6 @@ class WorkerController extends Controller
         Session::flash('success', 'Data berhasil diupdate');
         return redirect()->route('worker.index');
     }
-
     private function handleProofs(User $user, Request $request)
     {
         // Hapus semua bukti lama

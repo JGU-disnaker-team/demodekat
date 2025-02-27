@@ -11,8 +11,9 @@ class WorkerCategory extends Model
 
     protected $fillable = ['name', 'description'];
 
+    // Relasi yang benar untuk one-to-many
     public function workers()
     {
-        return $this->belongsToMany(User::class, 'user_worker_category');
+        return $this->hasMany(User::class, 'worker_category_id');
     }
 }
