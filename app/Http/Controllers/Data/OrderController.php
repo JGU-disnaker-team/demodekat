@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
     public function index(OrderDataTable $dataTable)
-    {        // Render the appropriate DataTable
+    {
+        // Render the appropriate DataTable
         return $dataTable->render('data.order.index');
     }
 
@@ -47,11 +49,13 @@ class OrderController extends Controller
 
     public function send_konfirmasi(Request $request, $id)
     {
+        // Validasi input
         $validated = Validator::make($request->all(), [
             'dari_bank' => 'required',
             'bank_id' => 'required|exists:banks,id',
             'nominal_transfer' => 'required',
             'bukti_transfer' => 'required',
+            'g-recaptcha-response' => 'required', // Validasi reCAPTCHA
         ]);
 
         if ($validated->fails()) {
@@ -61,6 +65,23 @@ class OrderController extends Controller
                 ->withInput();
         }
 
+        // Validasi reCAPTCHA
+        $response = $request->input('g-recaptcha-response');
+        $secret = env('RECAPTCHA_SECRET_KEY');
+
+        $captchaResponse = Http::asForm()->post("https://www.google.com/recaptcha/api/siteverify", [
+            'secret' => $secret,
+            'response' => $response,
+            'remoteip' => $request->ip()
+        ]);
+
+        $captchaData = $captchaResponse->json();
+
+        if (!$captchaData['success']) {
+            return back()->withErrors(['g-recaptcha-response' => 'CAPTCHA verification failed.']);
+        }
+
+        // Jika validasi berhasil, proses penyimpanan data
         $order = Order::where('id', $id)->first();
         if (empty($order)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
@@ -70,6 +91,7 @@ class OrderController extends Controller
         $order->bank_id = $request->bank_id;
         $order->nominal_transfer = $request->nominal_transfer;
         $order->status_pembayaran = 2;
+
         $fileimage = $request->file('bukti_transfer');
         if (!empty($fileimage)) {
             $fileimageName = date('dHis') . '.' . $fileimage->getClientOriginalExtension();
@@ -84,8 +106,6 @@ class OrderController extends Controller
         $order->update();
 
         return redirect('data/order')->with('success', 'data berhasil di simpan');
-
-
     }
 
     public function bayar_diterima($id)
@@ -144,6 +164,7 @@ class OrderController extends Controller
         $data->update();
         return redirect('data/order')->with('success', 'data berhasil di simpan');
     }
+
     public function show($id)
     {
         $data = Order::where('id', $id)->first();
@@ -155,8 +176,6 @@ class OrderController extends Controller
             'customer.district',
             'customer.city',
             'customer.province',
-            // 'customer.rt',
-            // 'customer.rw',
         ])->findOrFail($id);
 
         $workerProofs = WorkerProof::where('order_id', $id)->get();
