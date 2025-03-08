@@ -12,6 +12,12 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            @if(Auth::user()->isWorker()) 
+                            <div class="col-12">
+                                <label for="category">Kategori</label>
+                                <div class="form-control bg-light">{{ Auth::user()->kategori ? Auth::user()->kategori->title : 'Tidak ada kategori' }}</div>
+                            </div>
+                            @endif
                             <div class="col-12">
                                 <x-form.text label="Nama Lengkap" for="name" name="name"
                                     value="{{ $data->name }}" :error="$errors->first('name')" required></x-form.text>

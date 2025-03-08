@@ -102,4 +102,9 @@ class Order extends Model
     {
         return 'RT ' . $this->rt . ' / RW ' . $this->rw;
     }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
+
 }

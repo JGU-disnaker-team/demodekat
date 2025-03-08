@@ -37,7 +37,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $orders = Order::where('status_order', 1)
+        ->where('kategori_id', Auth::user()->kategori_id)
+        ->get();
+        return view('home', compact('orders'));
     }
 
     public function profil()
@@ -52,7 +55,11 @@ class HomeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-
+            'no_rekening' => 'nullable|string|unique:users,no_rekening,' . Auth::user()->id,
+            'password' => 'nullable|min:6',
+            'image' => 'nullable|image|max:2048',
+            'no_telp' => 'nullable|string',
+            'email' => 'nullable|email',
         ]);
 
         $data = User::where('id', Auth::user()->id)->first();
@@ -70,9 +77,12 @@ class HomeController extends Controller
         $data->district_code = $request->district_code;
         $data->village_code = $request->village_code;
         $data->alamat = $request->alamat;
-        $data->no_rekening = $request->no_rekening;
         $data->rt = $request->rt;
         $data->rw = $request->rw;
+
+        if ($request->no_rekening !== $data->no_rekening) {
+            $data->no_rekening = $request->no_rekening;
+        }
 
         $fileimage = $request->file('image');
         if (!empty($fileimage)) {
@@ -165,10 +175,14 @@ class HomeController extends Controller
         // Parse the combined date and time
         $dateTime = new DateTime($combinedDateTime);
 
-        $layanan = Layanan::find($request->layanan_id);
+        $layanan = Layanan::with('kategori')->find($request->layanan_id);
+        if (!$layanan) {
+            return redirect()->back()->with('error', 'Layanan tidak ditemukan.');
+        }
 
         $order = new Order();
         $order->layanan_id = $request->layanan_id;
+        $order->kategori_id = $layanan->kategori_id;
         $order->customer_id = Auth::user()->id;
         $order->harga_member = $layanan->harga_member;
         $order->harga_worker = $layanan->harga_worker;

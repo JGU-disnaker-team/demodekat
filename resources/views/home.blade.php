@@ -191,7 +191,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse (\App\Models\Order::where('status_order',2)->get() as $pending)
+                            @forelse ($orders as $pending)
                                 <tr>
                                     <td>{{ @$pending->layanan->title }}</td>
                                     <td>{{ @$pending->customer->name }}</td>
