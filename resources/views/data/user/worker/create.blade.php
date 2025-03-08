@@ -40,7 +40,18 @@
                                 <x-form.text label="alamat" for="alamat" name="alamat"
                                     value="{{ old('alamat') }}" :error="$errors->first('alamat')" required></x-form.text>
                             </div>
-                            
+                            <div class="col-md-6">
+                                <label for="kategori_id">Pilih Kategori</label>
+                                <select name="kategori_id" id="kategori_id" class="form-select" required>
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($kategoris as $kategori)
+                                        <option value="{{ $kategori->id }}">{{ $kategori->title }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->first('kategori_id'))
+                                    <small class="text-danger text-capitalize">{{ $errors->first('kategori_id') }}</small>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

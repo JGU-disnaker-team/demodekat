@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'no_rekening',
         'rt',
         'rw',
+        'kategori_id',
     ];
 
     /**
@@ -70,7 +71,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     protected $appends = ['image_url'];
-
+    public function isWorker()
+    {
+        return $this->hasRole('worker');
+    }
     public function getImageUrlAttribute()
     {
         return $this->avatar ? asset('storage/user') . '/' . $this->avatar : 'https://via.placeholder.com/150x150.png';
@@ -100,9 +104,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(IndonesiaVillage::class, 'village_code', 'code');
     }
 
-    public function categories()
-{
-    return $this->belongsToMany(WorkerCategory::class, 'user_worker_category');
-}
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
 
 }

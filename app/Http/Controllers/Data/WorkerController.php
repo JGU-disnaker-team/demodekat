@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Data;
 
+use App\Models\User;
+use App\Models\Kategori;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\DataTables\WorkerDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\WorkerProof; // Tambahkan ini
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
+use App\Models\WorkerProof; // Tambahkan ini
 
 class WorkerController extends Controller
 {
@@ -23,48 +24,48 @@ class WorkerController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = Validator::make($request->all(), [
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:6',
-        'worker_category_id' => 'required|exists:worker_categories,id', // Validasi kategori
-    ]);
+    {
+        $validated = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'kategori_id' => 'required|exists:kategoris,id',
+        ]);
 
-    if ($validated->fails()) {
-        Session::flash('warning', 'Data gagal disimpan');
-        return redirect()->back()
-            ->withErrors($validated)
-            ->withInput();
+        if ($validated->fails()) {
+            Session::flash('warning', 'Data gagal disimpan');
+            return redirect()->back()
+                ->withErrors($validated)
+                ->withInput();
+        }
+
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->no_telp = $request->no_telp;
+        $data->alamat = $request->alamat;
+        $data->status = $request->status;
+        $data->kategori_id = $request->kategori_id;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            Storage::putFileAs('public/worker', $file, $fileName);
+            $data->avatar = $fileName;
+        }
+
+        $data->save();
+        $data->assignRole('worker');
+
+        Session::flash('success', 'Worker berhasil disimpan');
+        return redirect()->route('worker.index');
     }
-
-    $data = new User();
-    $data->name = $request->name;
-    $data->email = $request->email;
-    $data->password = bcrypt($request->password);
-    $data->no_telp = $request->no_telp;
-    $data->alamat = $request->alamat;
-    $data->status = $request->status;
-    $data->worker_category_id = $request->worker_category_id; // Tambahkan ini
-
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        Storage::putFileAs('public/worker', $file, $fileName);
-        $data->avatar = $fileName;
-    }
-
-    $data->save();
-    $data->assignRole('worker');
-
-    Session::flash('success', 'Worker berhasil disimpan');
-    return redirect()->route('worker.index');
-}
 
     public function create()
     {
-        $categories = \App\Models\WorkerCategory::all(); // Ambil semua kategori
-    return view('data.user.worker.create', compact('categories'));
+        $kategoris = Kategori::all();
+        return view('data.user.worker.create', compact('kategoris'));
     }
 
     public function show($id)
@@ -84,7 +85,7 @@ class WorkerController extends Controller
             'arrival_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'work_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'satisfaction_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'worker_category_id' => 'required|exists:worker_categories,id',
+            'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
         if ($validated->fails()) {
@@ -102,10 +103,9 @@ class WorkerController extends Controller
             'no_telp' => $request->no_telp,
             'status' => $request->status,
             'password' => $request->password ? bcrypt($request->password) : $data->password,
-            'worker_category_id' => $request->worker_category_id,
+            'kategori_id' => $request->kategori_id,
         ]);
 
-        // Update gambar profil
         if ($request->hasFile('image')) {
             Storage::delete('public/user/' . $data->avatar);
             $fileimageName = date('dHis') . '.' . $request->file('image')->getClientOriginalExtension();
