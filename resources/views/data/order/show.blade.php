@@ -47,7 +47,10 @@
                     <div class="card-body p-0">
                         <ul class="list-group">
                             <li class="list-group-item">{{ optional($data->worker)->name }}</li>
-                            <li class="list-group-item">{{ optional($data->worker)->alamat }}</li>
+                            <li class="list-group-item">
+                                {{ $data->customer->city->name }},
+                                {{ $data->customer->province->name }}
+                            </li>
                             @if ($user->getRoleNames()[0] == 'superadmin')
                                 <li class="list-group-item">{{ optional($data->worker)->no_telp }}</li>
                             @endif
