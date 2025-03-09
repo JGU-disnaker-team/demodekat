@@ -79,12 +79,13 @@
                             @endif
                         </li>
                         <li class="list-group-item">
-                            <strong>Bukti Pekerjaan Worker:</strong> <br>
+                            <strong>Bukti Pekerjaan:</strong> <br>
                             
                             @if($data->workerProofs->isNotEmpty())
                                 <div class="row">
                                     @foreach($data->workerProofs as $proof)
                                         <div class="col-md-3 mb-2">
+                                            <p><strong>{{ ucfirst($proof->type) }}</strong></p> <!-- Tampilkan tipe bukti -->
                                             <a href="{{ Storage::url($proof->image_path) }}" target="_blank">
                                                 <img src="{{ Storage::url($proof->image_path) }}" class="img-thumbnail" width="150">
                                             </a>
@@ -94,6 +95,12 @@
                             @else
                                 <p>Belum ada bukti pekerjaan.</p>
                             @endif
+                            @if($data->worker_description)
+                                <li class="list-group-item">
+                                    <strong>Deskripsi Pekerjaan:</strong>
+                                    <p>{{ $data->worker_description }}</p>
+                                </li>
+                            @endif
                         </li>
 
                         @if(Auth::user()->id == $data->worker_id)
@@ -101,8 +108,21 @@
                                 <strong>Unggah Bukti Pekerjaan:</strong> <br>
                                 <form action="{{ route('order.upload_proof', $data->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    <select name="type" class="form-control mb-2" required>
+                                        <option value="sampai">Bukti Saat Sampai</option>
+                                        <option value="sebelum">Bukti Sebelum Pengerjaan</option>
+                                        <option value="selesai">Bukti Setelah Pekerjaan</option>
+                                    </select>
                                     <input type="file" name="image" class="form-control mb-2" required>
                                     <button type="submit" class="btn btn-primary">Upload</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Deskripsi Pekerjaan:</strong> <br>
+                                <form action="{{ route('order.submit_description', $data->id) }}" method="POST">
+                                    @csrf
+                                    <textarea name="description" class="form-control mb-2" rows="4" placeholder="Deskripsikan pekerjaan yang telah dilakukan..." required>{{ $data->worker_description }}</textarea>
+                                    <button type="submit" class="btn btn-primary">Simpan Deskripsi</button>
                                 </form>
                             </li>
                         @endif

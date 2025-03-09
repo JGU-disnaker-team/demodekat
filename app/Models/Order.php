@@ -34,6 +34,7 @@ class Order extends Model
         'province_code',
         'status_pembayaran',
         'status_order',
+        'worker_description',
     ];
 
     public function bank(): BelongsTo

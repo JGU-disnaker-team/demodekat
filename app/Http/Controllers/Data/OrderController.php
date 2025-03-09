@@ -203,7 +203,8 @@ class OrderController extends Controller
     public function uploadProof(Request $request, $orderId)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'type' => 'required|in:sampai,sebelum,selesai',
         ]);
 
         $order = Order::findOrFail($orderId);
@@ -221,9 +222,27 @@ class OrderController extends Controller
             'user_id' => Auth::id(),
             'order_id' => $orderId,
             'image_path' => $imagePath,
+            'type' => $request->type,
         ]);
 
         return redirect()->back()->with('success', 'Bukti pekerjaan berhasil diunggah.');
+    }
+    public function submitDescription(Request $request, $orderId)
+    {
+        $request->validate([
+            'description' => 'required|string|max:1000',
+        ]);
+
+        $order = Order::findOrFail($orderId);
+
+        if (Auth::user()->id !== $order->worker_id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengunggah deskripsi ini.');
+        }
+
+        $order->worker_description = $request->description;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Deskripsi pekerjaan berhasil disimpan.');
     }
 
     public function destroy($id)

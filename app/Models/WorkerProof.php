@@ -16,7 +16,9 @@ class WorkerProof extends Model
         'id',
         'user_id',
         'order_id',
+        'type',
         'image_path',
+        'description',
     ];
 
     protected static function boot()
