@@ -34,10 +34,13 @@
                                 <x-form.text label="no_telp" for="no_telp" name="no_telp"
                                     value="{{ $data->no_telp }}" :error="$errors->first('no_telp')" required></x-form.text>
                             </div>
-                            <div class="col-md-6">
-                                <x-form.text label="Nomor Rekening" for="no_rekening" name="no_rekening"
-                                    value="{{ old('no_rekening', $data->no_rekening) }}" :error="$errors->first('no_rekening')" required></x-form.text>
-                            </div>
+                            @if(Auth::user()->hasRole('worker') || Auth::user()->hasRole('admin'))
+                                <div class="col-md-6">
+                                    <x-form.text label="Nomor Rekening" for="no_rekening" name="no_rekening"
+                                        value="{{ old('no_rekening', $data->no_rekening) }}" :error="$errors->first('no_rekening')" required>
+                                    </x-form.text>
+                                </div>
+                            @endif
                             <!-- Dropdown Provinsi -->
                             <div class="col-12">
                                 <label for="province">Provinsi</label>
