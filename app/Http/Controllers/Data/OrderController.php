@@ -11,6 +11,7 @@ use App\Models\WorkerProof;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\DataTables\OrderDataTable;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -94,23 +95,19 @@ class OrderController extends Controller
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
-        $worker = User::where('kategori_id', $data->kategori_id)
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'worker');
-            })
-            ->inRandomOrder()
-            ->first();
+        // $worker = User::where('kategori_id', $data->kategori_id)
+        //     ->whereHas('roles', function ($query) {
+        //         $query->where('name', 'worker');
+        //     })
+        //     ->inRandomOrder()
+        //     ->first();
 
-        if ($worker) {
-            $data->worker_id = $worker->id;
-            $data->status_pembayaran = 3;
-            $data->status_order = 2;
-            $data->update();
-            return redirect('data/order')->with('success', 'data berhasil di simpan');
-        }
-        if (!$worker) {
-            return redirect()->back()->with('error', 'Tidak ada worker yang tersedia untuk kategori ini.');
-        }
+        // if ($worker) {
+        //     $data->worker_id = $worker->id;
+        $data->status_pembayaran = 3;
+        $data->status_order = 2;
+        $data->update();
+        return redirect('data/order')->with('success', 'data berhasil di simpan');
     }
 
     public function terima_pekerjaan($id)
@@ -119,12 +116,14 @@ class OrderController extends Controller
         if (empty($data)) {
             return redirect()->back()->with('error', 'data tidak ditemukan');
         }
+        $user = Auth::user();
+        if (empty($user->province_code) || empty($user->city_code) || empty($user->no_telp)) {
+            return redirect()->back()->with('error', 'Silakan lengkapi profil terlebih dahulu.');
+        }
         if (Auth::user()->kategori_id !== $data->kategori_id) {
             return redirect()->back()->with('error', 'Anda tidak bisa mengambil pekerjaan di kategori ini.');
         }
-        if (Auth::user()->id !== $data->worker_id) {
-            return redirect()->back()->with('error', 'Order ini bukan untuk Anda.');
-        }
+        $data->worker_id = $user->id;
         $data->status_order = 3;
         $data->update();
         return redirect('data/order')->with('success', 'Pekerjaan berhasil diterima');

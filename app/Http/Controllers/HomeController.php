@@ -37,9 +37,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('status_order', 1)
-        ->where('kategori_id', Auth::user()->kategori_id)
-        ->get();
+        $orders = Order::where('status_order', 2)
+            ->where('status_pembayaran', 3) // Tambahkan filter pembayaran
+            ->where('kategori_id', Auth::user()->kategori_id)
+            ->whereNull('worker_id')
+            ->get();
         return view('home', compact('orders'));
     }
 
