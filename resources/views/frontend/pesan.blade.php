@@ -19,7 +19,7 @@
                 <div class="col-lg-6">
                     <div class="common-title">
                         <h4>{{ $data->title}}</h4>
-        
+
                     </div>
                     <div class="ratio ratio-16x9 mb-4"
                         style="background-image: url('{{ $data->image_url }}');background-repeat: no-repeat;
@@ -45,7 +45,7 @@
                                         required placeholder="waktu Lengkap" min="{{date('Y-m-d')}}" max="{{date('Y-m-d', strtotime('+2 days'))}}">
                                 </div>
                                 <div class="col-lg-6">
-                                    
+
                                     <div class="form-group mb-3">
                                         <label>Jam Layanan</label>
                                         {{ Form::select('jam', jam_layanan(), null, ['class' => 'form-select']) }}
@@ -60,7 +60,7 @@
                                         required placeholder="+62 xxxx xxxx xxxx ">
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-12">
                                     <label for="province">Provinsi</label>
@@ -73,28 +73,28 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-12">
                                     <label for="city">Kota/Kabupaten</label>
                                     <select name="city_code" id="city" class="form-control" required>
                                         <option value="">Pilih Kota/Kabupaten</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-12">
                                     <label for="district">Kecamatan</label>
                                     <select name="district_code" id="district" class="form-control" required>
                                         <option value="">Pilih Kecamatan</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-12">
                                     <label for="village">Kelurahan/Desa</label>
                                     <select name="village_code" id="village" class="form-control" required>
                                         <option value="">Pilih Kelurahan/Desa</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <x-form.text label="RT" for="rt" name="rt"
                                         value="{{ Auth::user()->rt }}" :error="$errors->first('rt')" required></x-form.text>
@@ -106,7 +106,7 @@
                                 <div class="col-md-12">
                                     <x-form.text label="Alamat" for="alamat" name="alamat"
                                         value="{{ Auth::user()->alamat }}" :error="$errors->first('alamat')" required></x-form.text>
-                                
+
                                     <div class="checkbox-input">
                                         <input type="checkbox" class="form-check-input" id="term" required>
                                         <label for="term">Data Yang saya kirim adalah data yang sebenarnya dari
@@ -130,7 +130,7 @@
 $(document).ready(function() {
     // Debug untuk memastikan jQuery dan event berjalan
     console.log('Document ready');
-    
+
     // Fungsi untuk memuat data kota
     function loadCities(provinceCode, selectedCity = '') {
         console.log('Loading cities for province:', provinceCode); // Debug
@@ -229,7 +229,7 @@ $(document).ready(function() {
     const initialDistrictCode = '{{ Auth::user()->district_code }}';
     const initialVillageCode = '{{ Auth::user()->village_code }}';
 
-    console.log('Initial values:', { 
+    console.log('Initial values:', {
         province: initialProvinceCode,
         city: initialCityCode,
         district: initialDistrictCode,
